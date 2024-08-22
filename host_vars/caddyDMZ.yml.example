@@ -1,0 +1,6 @@
+ansible_user: # ansible user that will manage the server
+sudoers_ansible: # sudoers file for ansible user to give sudo rights
+sudoers_ansible_path: /etc/sudoers.d/<ansible_user> # destination path to place sudoers file
+ssh_users: "ansible_user" # set users that allowed SSH access to server (at least ansible_user)
+ssh_template_file: sshd_config_ubuntu.j2 # template for hardened sshd_config
+lapi_endpoint: http://192.168.1.1:8080 # Local API of Crowdsec bouncer on OPNsense

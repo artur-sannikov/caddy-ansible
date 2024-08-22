@@ -1,0 +1,13 @@
+- name: restart_unattended_upgrades
+  ansible.builtin.service:
+    name: unattended-upgrades
+    state: restarted
+
+- name: restart_ssh
+  ansible.builtin.service:
+    name: ssh
+    state: restarted
+
+- name: reload_ufw
+  community.general.ufw:
+    state: reloaded

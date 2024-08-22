@@ -1,0 +1,34 @@
+---
+- hosts: all
+  become: true
+  pre_tasks:
+    - name: Update packages (Ubuntu)
+      tags: always
+      ansible.builtin.apt:
+        update_cache: true
+        upgrade: true
+
+- hosts: all
+  become: true
+  tasks:
+    - name: Create ansbile user
+      tags: always
+      ansible.builtin.user:
+        name: "{{ ansible_user }}"
+        group: root
+        state: present
+    - name: Add SSH key for ansible user
+      tags: always
+      ansible.posix.authorized_key:
+        user: "{{ ansible_user }}"
+        key: "{{ item }}"
+      with_file:
+        public_keys/ansible.pub
+    - name: Add sudoers file for ansible user
+      tags: always
+      ansible.builtin.copy:
+        src: "{{ sudoers_ansible }}"
+        dest: "{{ sudoers_ansible_path }}"
+        owner: root
+        group: root
+        mode: "0440"

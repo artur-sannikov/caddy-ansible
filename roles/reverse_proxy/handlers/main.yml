@@ -1,0 +1,19 @@
+- name: start_caddy
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+    name: caddy
+    state: started
+    enabled: true
+
+- name: reload_daemon
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: reload_crowdsec
+  ansible.builtin.systemd_service:
+    name: crowdsec
+    state: reloaded
+
+- name: reload_caddy
+  ansible.builtin.shell: |
+    caddy reload -c /etc/caddy/Caddyfile

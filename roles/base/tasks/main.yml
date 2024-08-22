@@ -1,0 +1,78 @@
+- name: Install essential packages
+  tags: always
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - unattended-upgrades
+
+- name: Enable unattended-upgrades autoclean
+  tags: always
+  ansible.builtin.copy:
+    src: 20auto-upgrades
+    dest: /etc/apt/apt.conf.d/20auto-upgrades
+    owner: root
+    group: root
+  notify: restart_unattended_upgrades
+
+- name: Enable automatic reboot after upgrade without confirmation
+  ansible.builtin.lineinfile:
+    path: /etc/apt/apt.conf.d/50unattended-upgrades
+    regexp: ^//Unattended-Upgrade::Automatic-Reboot "false";
+    line: Unattended-Upgrade::Automatic-Reboot "true";
+  notify: restart_unattended_upgrades
+
+- name: Set automatic reboot time
+  ansible.builtin.lineinfile:
+    path: /etc/apt/apt.conf.d/50unattended-upgrades
+    regexp: ^//Unattended-Upgrade::Automatic-Reboot-Time
+    line: Unattended-Upgrade::Automatic-Reboot-Time "05:00";
+  notify: restart_unattended_upgrades
+
+- name: Generate sshd_config from template
+  tags: ssh
+  template:
+    src: "{{ ssh_template_file }}"
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart_ssh
+
+- name: Limit access to ssh port
+  tags: ufw
+  community.general.ufw:
+    rule: limit
+    src: 192.168.10.0/24
+    port: "22"
+    proto: tcp
+
+- name: Allow all access to http port
+  tags: ufw
+  community.general.ufw:
+    rule: allow
+    port: "80"
+    proto: tcp
+
+- name: Allow all access to https port
+  tags: ufw
+  community.general.ufw:
+    rule: allow
+    port: "443"
+    proto: tcp
+
+- name: Deny other incoming traffic and enable UFW
+  tags: ufw
+  community.general.ufw:
+    state: enabled
+    policy: deny
+    direction: incoming
+
+- name: Disable UFW IPv6
+  tags: ufw
+  ansible.builtin.lineinfile:
+    path: /etc/default/ufw
+    regexp: ^IPV6=
+    line: IPV6=no
+  notify:
+    - reload_ufw
