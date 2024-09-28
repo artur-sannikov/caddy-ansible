@@ -21,7 +21,8 @@ ssh_client_host_key_algorithms:
   - rsa-sha2-512-cert-v01@openssh.com
   - rsa-sha2-256-cert-v01@openssh.com
   - sk-ssh-ed25519@openssh.com
-  - ssh-ed25519,rsa-sha2-512
+  - ssh-ed25519
+  - rsa-sha2-512
   - rsa-sha2-256
 ssh_pubkey_accepted_algorithms:
   - sk-ssh-ed25519-cert-v01@openssh.com
