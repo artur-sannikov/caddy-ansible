@@ -65,3 +65,10 @@ This is still work-in-progress. I use [Tailscale](https://tailscale.com) to acce
 2. Jay LaCroix's excellent [Ansible video series](https://www.youtube.com/playlist?list=PLqyUgadpThTL1guZCdGy7H8V4snPrpj8t).
 3. Jim's Garage for [changing the way I create new VMs](https://youtu.be/Kv6-_--y5CM).
 4. Software developers whose work made this repo possible.
+
+## Availability
+
+The repo is available on:
+
+1. [Codeberg](https://codeberg.org/arsann/caddy-ansible)
+2. [GitHub](https://github.com/artur-sannikov/caddy-ansible)
