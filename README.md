@@ -2,6 +2,11 @@
 
 This Ansible repo sets up a Caddy reverse proxy for my homelab services. It integrates with the Crowdsec plugin that runs on my OPNsense box.
 
+# Hardware
+
+1. OPNsense: Protectli FW4C, Intel Pentium J3710, 4GB RAM
+2. VM on Proxmox host, 2GB RAM, 4 CPU of Intel Celeron N5105
+
 ## How?
 
 Dustin Casto wrote an outstanding guide on this setup on [his website](https://homenetworkguy.com/how-to/set-up-caddy-reverse-proxy-with-lets-encrypt-and-crowdsec-using-opnsense-lapi/). I automated it with Ansible.
@@ -14,10 +19,10 @@ I also do some SSH hardening and set up a UFW firewall.
 
 ## Prerequisites
 
-1. Cloudflare account with an API key with permissions: `Zone.Zone Read` and `Zone.DNS Edit`. You need to set up this key `roles/reverse_proxy/files/caddy_override.conf` file
-2. I use OPNsense as my firewall. However, t should be possible to modify this playbook to just install and set up Caddy.
-3. A domain name. Since we want valid HTTPS certificates.
-4. Ubuntu. This set-up has been tested on Ubuntu 24.04, but should work on any Debian-based system.
+1. Cloudflare account with an API key with permissions: `Zone.Zone Read` and `Zone.DNS Edit`. You need to set up this key `roles/reverse_proxy/files/caddy_override.conf` file.
+2. I use OPNsense as my firewall. However, it should be possible to modify this playbook to just install and set up Caddy.
+3. A domain name, since we want valid HTTPS certificates.
+4. Ubuntu. This setup has been tested on Ubuntu 24.04, but should work on any Debian-based system.
 5. Public key for SSH authentication is set in the root of the repository in the `files/ansible.pub` file.
 
 ### Set up Crowdsec on OPNsense
@@ -30,13 +35,13 @@ This repo builds Caddy with the Cloudflare plugin to perform the DNS-01 challeng
 
 ## Variables and files
 
-Define your host variables in `host_vars/caddyDMZ.yml`. The comments in the example file should be helpful.
+1. Create the [inventory](https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html). The repo assumes the file is called `inventory`.
+2. Define host variables in `host_vars/caddyDMZ.yml`. The comments in the example file should be helpful.
+3. Set up your [Caddyfile](https://caddyserver.com/docs/caddyfile) in `roles/reverse_proxy/files`. See the provided example for ideas. I am using [Authentik](https://goauthentik.io/) for some of the apps that do not provide built-in authentication.
+4. Set up `caddy_override.conf`. It only contains the Cloudflare API token. Keep it **safe**!
+5. In root directory create the `files/public_keys/ansible.pub` key, containing your public key the `base` role will transfer to the Caddy machine.
 
-Set up your [Caddyfile](https://caddyserver.com/docs/caddyfile).
-
-Set up `caddy_override.conf`. It only contais Cloudflare API token. Keep it **safe**!
-
-Remove the `.example` suffix from the provided files.
+Remove the `.example` extension from the provided files.
 
 ## How to run?
 
