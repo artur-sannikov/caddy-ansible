@@ -1,6 +1,5 @@
 inventory
 Caddyfile
-ansible.cfg
 host_vars/*.yml
 roles/reverse_proxy/files/caddy_override.conf
 
