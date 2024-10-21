@@ -122,7 +122,7 @@
 - name: Install Caddy CrowdSec collection
   ansible.builtin.shell: |
     cscli collections install crowdsecurity/caddy
-  notify: reload_crowdsec
+  notify: Reload Crowdsec
 
 - name: Create caddy.service.d directory to override Caddy systemd
   ansible.builtin.file:
