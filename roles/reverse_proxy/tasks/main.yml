@@ -1,12 +1,12 @@
 - name: Install go-golang
   ansible.builtin.apt:
     name: golang
-    state: latest
+    state: present
 
 - name: Install prerequisites for xcaddy
   ansible.builtin.apt:
     name: "{{ item }}"
-    state: latest
+    state: present
   loop:
     - debian-keyring
     - debian-archive-keyring
@@ -93,12 +93,12 @@
     owner: root
     group: root
     mode: "0644"
-  notify: start_caddy
+  notify: Start Caddy
 
 - name: Install crowdsec
   ansible.builtin.apt:
     name: crowdsec
-    state: latest
+    state: present
 
 - name: Register CrowdSec agent
   ansible.builtin.shell: |
@@ -113,7 +113,7 @@
     owner: root
     group: root
     mode: "0644"
-  notify: reload_daemon
+  notify: Reload daemon
 
 - name: Pause until CrowdSec machine validation
   ansible.builtin.pause:
@@ -125,12 +125,12 @@
   notify: reload_crowdsec
 
 - name: Create caddy.service.d directory to override Caddy systemd
-  file:
+  ansible.builtin.file:
     path: /etc/systemd/system/caddy.service.d/
     state: directory
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
 
 - name: Copy caddy.service drop-in
   ansible.builtin.copy:
@@ -138,5 +138,5 @@
     dest: /etc/systemd/system/caddy.service.d/override.conf
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   notify: reload_daemon
