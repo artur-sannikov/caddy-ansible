@@ -24,6 +24,7 @@ I also do some SSH hardening and set up a UFW firewall.
 3. A domain name, since we want valid HTTPS certificates.
 4. Ubuntu. This setup has been tested on Ubuntu 24.04, but should work on any Debian-based system.
 5. Public key for SSH authentication is set in the root of the repository in the `files/ansible.pub` file.
+6. The Ansible user is called `hedgehog`🦔. You are free to change it.
 
 ### Set up Crowdsec on OPNsense
 
