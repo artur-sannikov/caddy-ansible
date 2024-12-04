@@ -84,7 +84,7 @@
     owner: caddy
     group: caddy
     mode: "0600"
-  notify: reload_caddy
+  notify: Reload Caddy
 
 - name: Copy caddy.service
   ansible.builtin.copy:
@@ -139,4 +139,4 @@
     owner: root
     group: root
     mode: "0644"
-  notify: reload_daemon
+  notify: Reload daemon
