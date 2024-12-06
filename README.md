@@ -23,8 +23,13 @@ I also do some SSH hardening and set up a UFW firewall.
 2. I use OPNsense as my firewall. However, it should be possible to modify this playbook to just install and set up Caddy.
 3. A domain name, since we want valid HTTPS certificates.
 4. Ubuntu. This setup has been tested on Ubuntu 24.04, but should work on any Debian-based system.
-5. Public key for SSH authentication is set in the root of the repository in the `files/ansible.pub` file.
-6. The Ansible user is called `hedgehog`🦔. You are free to change it.
+5. I use [Ubuntu cloud images](https://cloud-images.ubuntu.com/) to quickly bootstrap new virtual machiens on Proxmox.
+6. An `inventory` file which contains the Caddy machine IP, username and the relevant SSH key. For example,
+
+```
+[caddy]
+192.168.100.100 ansible_user=artur ansible_ssh_private_key_file=~/.ssh/id_ed25519
+```
 
 ### Set up Crowdsec on OPNsense
 
@@ -40,14 +45,12 @@ This repo builds Caddy with the Cloudflare plugin to perform the DNS-01 challeng
 2. Define host variables in `host_vars/caddyDMZ.yml`. The comments in the example file should be helpful.
 3. Set up your [Caddyfile](https://caddyserver.com/docs/caddyfile) in `roles/reverse_proxy/files`. See the provided example for ideas. I am using [Authentik](https://goauthentik.io/) for some of the apps that do not provide built-in authentication.
 4. Set up `caddy_override.conf`. It only contains the Cloudflare API token. Keep it **safe**!
-5. In root directory create the `files/public_keys/ansible.pub` key, containing your public key the `base` role will transfer to the Caddy machine.
 
 Remove the `.example` extension from the provided files.
 
 ## How to run?
 
-1. Provided you have Ansible installed and `inventory` and `ansible.cfg` files created, you need to run `ansible-playbook bootsrap.yml`. It will create a specified Ansible user and give it `sudo` rights. From now on, you can run any Ansible playbook as this user.
-2. Run `ansible-playbook caddy.yml`.
+Provided you have Ansible installed and `inventory` and `ansible.cfg`, run `ansible-playbook caddy.yml`.
 
 ## Things to keep in mind
 
