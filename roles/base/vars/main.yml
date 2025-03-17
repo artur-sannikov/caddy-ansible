@@ -1,15 +1,15 @@
-ssh_ciphers:
+base_ssh_ciphers:
   - chacha20-poly1305@openssh.com
   - aes256-gcm@openssh.com
   - aes256-ctr
   - aes192-ctr
   - aes128-gcm@openssh.com
   - aes128-ctr
-ssh_macs:
+base_ssh_macs:
   - hmac-sha2-512-etm@openssh.com
   - hmac-sha2-256-etm@openssh.com
   - umac-128-etm@openssh.com
-ssh_kex:
+base_ssh_kex:
   - sntrup761x25519-sha512@openssh.com
   - gss-curve25519-sha256-
   - curve25519-sha256
@@ -18,7 +18,7 @@ ssh_kex:
   - diffie-hellman-group-exchange-sha256
   - gss-group16-sha512-
   - diffie-hellman-group16-sha512
-ssh_client_host_key_algorithms:
+base_ssh_client_host_key_algorithms:
   - sk-ssh-ed25519-cert-v01@openssh.com,
   - ssh-ed25519-cert-v01@openssh.com
   - rsa-sha2-512-cert-v01@openssh.com
@@ -27,7 +27,7 @@ ssh_client_host_key_algorithms:
   - ssh-ed25519
   - rsa-sha2-512
   - rsa-sha2-256
-ssh_pubkey_accepted_algorithms:
+base_ssh_pubkey_accepted_algorithms:
   - sk-ssh-ed25519-cert-v01@openssh.com
   - ssh-ed25519-cert-v01@openssh.com
   - rsa-sha2-512-cert-v01@openssh.com

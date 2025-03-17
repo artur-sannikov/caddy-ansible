@@ -26,11 +26,11 @@ HostKey /etc/ssh/ssh_host_ed25519_key
 #RekeyLimit default none
 
 # Cryptography
-{{ 'Ciphers ' ~ ssh_ciphers|join(',') }}
-{{ 'MACs ' ~ ssh_macs|join(',') }}
-{{ 'KexAlgorithms ' ~ ssh_kex|join(',') }}
-{{ 'HostKeyAlgorithms ' ~ ssh_client_host_key_algorithms|join(',') }}
-{{ 'PubkeyAcceptedAlgorithms ' ~ ssh_pubkey_accepted_algorithms|join(',') }}
+{{ 'Ciphers ' ~ base_ssh_ciphers|join(',') }}
+{{ 'MACs ' ~ base_ssh_macs|join(',') }}
+{{ 'KexAlgorithms ' ~ base_ssh_kex|join(',') }}
+{{ 'HostKeyAlgorithms ' ~ base_ssh_client_host_key_algorithms|join(',') }}
+{{ 'PubkeyAcceptedAlgorithms ' ~ base_ssh_pubkey_accepted_algorithms|join(',') }}
 
 # Logging
 #SyslogFacility AUTH
