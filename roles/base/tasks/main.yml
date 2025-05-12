@@ -1,8 +1,9 @@
 - name: Install essential packages
   tags: always
   ansible.builtin.apt:
+    update_cache: true
     name: "{{ item }}"
-    state: latest
+    state: present
   loop:
     - unattended-upgrades
     - qemu-guest-agent
