@@ -1,5 +1,4 @@
-- hosts: caddy
+- hosts: caddyDMZ
   become: true
   roles:
-    - base
     - reverse_proxy
