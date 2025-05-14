@@ -65,16 +65,6 @@
     owner: root
     group: root
     mode: "0755"
-- name: Copy Caddyfile
-  ansible.builtin.copy:
-    src: Caddyfile
-    dest: /etc/caddy/Caddyfile
-    owner: caddy
-    group: caddy
-    mode: "0600"
-- name: Format Caddyfile using caddy fmt
-  ansible.builtin.command: caddy fmt --overwrite /etc/caddy/Caddyfile
-  notify: Reload Caddy
 - name: Copy caddy.service
   ansible.builtin.copy:
     src: caddy.service
@@ -96,8 +86,21 @@
     owner: root
     group: root
     mode: "0644"
-  notify: Reload daemon
-  notify: Start Caddy
+- name: Copy Caddyfile
+  ansible.builtin.copy:
+    src: Caddyfile
+    dest: /etc/caddy/Caddyfile
+    owner: caddy
+    group: caddy
+    mode: "0600"
+- name: Format Caddyfile using caddy fmt
+  ansible.builtin.command: caddy fmt --overwrite /etc/caddy/Caddyfile
+- name: Enable and start Caddy
+  ansible.builtin.systemd_service:
+    name: caddy
+    daemon-reload: true
+    enabled: true
+    state: started
 - name: Install crowdsec
   ansible.builtin.apt:
     name: crowdsec
@@ -122,4 +125,3 @@
   ansible.builtin.shell: |
     cscli collections install crowdsecurity/caddy
   notify: Reload Crowdsec
-
